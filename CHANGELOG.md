@@ -7,11 +7,12 @@
 - dependencies
 - code optimized
 
-## [0.5.0] - 23/03/2021
+## [0.4.17] - 31/03/2021
 
 ### Updated
 
-- @qualweb/core to version 0.5.1
+- dependencies
+- code optimized
 
 ## [0.4.16] - 23/03/2021
 
