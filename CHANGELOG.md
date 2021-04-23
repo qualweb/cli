@@ -1,11 +1,15 @@
 # Changelog
 
-## [0.5.1] - 31/03/2021
+## [0.4.18] - 23/04/2021
+
+
+### Fixed
+
+- save-name option not working
 
 ### Updated
 
 - dependencies
-- code optimized
 
 ## [0.4.17] - 31/03/2021
 
