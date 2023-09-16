@@ -58,19 +58,39 @@ This method will create an aggregated EARL report from all urls.
 
 ### Usage options
 
-| Alias | Command                  | Value                                             | Information                                                           |
-| ----- | ------------------------ | ------------------------------------------------- | --------------------------------------------------------------------- |
-| -u    | --url                    | `<url>`                                           | Url to evaluate                                                       |
-| -f    | --file                   | `<path-to-file>`                                  | File with urls to evaluate                                            |
-| -c    | --crawl                  | `<domain>`                                        | Domain to crawl                                                       |
-| -m    | --module                 | `act wcag bp`                                     | Choose which modules to execute                                       |
-| -r    | --report-type            | `"earl" or "earl-a"`                              | Convert the evaluation to `earl` or `earl-a` (_earl-aggregated_)      |
-| -s    | --save-name              | `<name>`                                          | The name to save the aggregated earl reports (_earl-a_)               |
-| -t    | --timeout                | `<number>`                                        | Timeout for page to load                                              |
-| -w    | --waitUntil              | `load doncontentloaded networkidle0 networkidle2` | Events to wait before starting evaluation                             |
-| -p    | --maxParallelEvaluations | `<number>`                                        | Evaluates multiples urls ate the same time (_experimental_)           |
-| -j    | --json                   | `<file>`                                          | Loads a json file with the configs to execute. Check an example below |
-| -h    | --help                   |                                                   | Print the help menu                                                   |
+| Alias | Command                  | Value                                             | Information                                                                                                                |
+|-------|--------------------------|---------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| -u    | --url                    | `<url>`                                           | Url to evaluate                                                                                                            |
+| -f    | --file                   | `<path-to-file>`                                  | File with urls to evaluate                                                                                                 |
+| -c    | --crawl                  | `<domain>`                                        | Domain to crawl                                                                                                            |
+| -m    | --module                 | `act wcag bp`                                     | Choose which modules to execute                                                                                            |
+| -r    | --report-type            | `"earl" or "earl-a"`                              | Convert the evaluation to `earl` or `earl-a` (_earl-aggregated_)                                                           |
+| -s    | --save-name              | `<name>`                                          | The name to save the aggregated earl reports (_earl-a_) or multiple reports to. See [Save names](#save-names) for details. |
+| -t    | --timeout                | `<number>`                                        | Timeout for page to load                                                                                                   |
+| -w    | --waitUntil              | `load doncontentloaded networkidle0 networkidle2` | Events to wait before starting evaluation                                                                                  |
+| -p    | --maxParallelEvaluations | `<number>`                                        | Evaluates multiples urls ate the same time (_experimental_)                                                                |
+| -j    | --json                   | `<file>`                                          | Loads a json file with the configs to execute. Check an example below                                                      |
+| -h    | --help                   |                                                   | Print the help menu                                                                                                        |
+
+#### Save names
+
+When saving (multiple) reports, placeholders in the `save-name` option can be used to generate file names:
+
+| Placeholder | Value                         | Information                                                 |
+|-------------|-------------------------------|-------------------------------------------------------------|
+| %url%       | The source url for the report |                                                             |
+| %time%      | The timestamp                 |                                                             |
+| %index%     | The index of the report       | Padded with leading zeroes to a length of three, e.g. `087` |
+
+##### Examples
+
+* Simulate the default behaviour (i.e. when `--save-name` is not specified): `--save-name %url%_%time%.json`
+* Number the reports and save in the `reports/` folder: `--save-name reports/report_%index%.json`
+
+##### Notes
+
+* If `save-name` does not contain placeholders, all reports will be saved to the same file name, i.e. only the last one will actually be saved.
+* When saving to a folder, the folder must be created prior to running `qw`.
 
 ### -j, --json config file example
 
