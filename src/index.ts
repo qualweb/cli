@@ -48,14 +48,7 @@ async function handleReporting(reports: { [url: string]: EvaluationReport }, opt
 
   if (reportType) {
     if (reportType === 'earl') {
-      const earlReports = generateEARLReport(reports) || {};
-      for (const url in earlReports) {
-        if (undefined !== saveName) {
-          await saveReport(saveName, earlReports[url], true);
-        } else {
-          await saveReport(url, earlReports[url]);
-        }
-      }
+      await saveEarlReports(reports, saveName);
     } else if (reportType === 'earl-a') {
       const earlOptions = checkEarlOptions(options, saveName);
       const earlReport = generateEARLReport(reports, earlOptions);
@@ -65,13 +58,28 @@ async function handleReporting(reports: { [url: string]: EvaluationReport }, opt
       throw new Error('Invalid reporter format');
     }
   } else {
-    for (const url in reports ?? {}) {
-      const report = <EvaluationReport>reports[url];
-      if (undefined !== saveName) {
-        await saveReport(saveName, report, true);
-      } else {
-        await saveReport(url, report);
-      }
+    await saveReports(reports, saveName);
+  }
+}
+
+async function saveEarlReports(reports: { [url: string]: EvaluationReport }, saveName?: string): Promise<void> {
+  const earlReports = generateEARLReport(reports) || {};
+  for (const url in earlReports) {
+    if (saveName) {
+      await saveReport(saveName, earlReports[url], true);
+    } else {
+      await saveReport(url, earlReports[url]);
+    }
+  }
+}
+
+async function saveReports(reports: { [url: string]: EvaluationReport }, saveName?: string): Promise<void> {
+  for (const url in reports ?? {}) {
+    const report = <EvaluationReport>reports[url];
+    if (saveName) {
+      await saveReport(saveName, report, true);
+    } else {
+      await saveReport(url, report);
     }
   }
 }
