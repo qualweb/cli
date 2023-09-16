@@ -214,7 +214,8 @@ const options = [
     alias: 's',
     type: String,
     typeLabel: '{underline name}',
-    description: 'The name to save the aggregated earl reports (earl-a).'
+    description:
+      'The name to save the aggregated earl reports (earl-a) or a single report to. Cannot be used when generating multiple reports using --urls.'
   },
   {
     name: 'timeout',

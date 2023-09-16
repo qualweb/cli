@@ -26,7 +26,7 @@ async function cli(): Promise<void> {
 
     await handleReporting(reports, options);
   } catch (err) {
-    if (err?.message === 'Invalid input method') {
+    if (err instanceof Error && err.message === 'Invalid input method') {
       printHelp();
     } else {
       console.error(err);
@@ -42,11 +42,19 @@ async function handleReporting(reports: { [url: string]: EvaluationReport }, opt
   delete options.report;
   delete options['save-name'];
 
+  if (!!saveName && Object.keys(reports || {}).length > 1) {
+    throw new Error('Option save-name cannot be used when generating multiple reports');
+  }
+
   if (reportType) {
     if (reportType === 'earl') {
-      const earlReports = generateEARLReport(reports);
-      for (const url in earlReports || {}) {
-        await saveReport(url, earlReports[url]);
+      const earlReports = generateEARLReport(reports) || {};
+      for (const url in earlReports) {
+        if (undefined !== saveName) {
+          await saveReport(saveName, earlReports[url], true);
+        } else {
+          await saveReport(url, earlReports[url]);
+        }
       }
     } else if (reportType === 'earl-a') {
       const earlOptions = checkEarlOptions(options, saveName);
@@ -59,7 +67,11 @@ async function handleReporting(reports: { [url: string]: EvaluationReport }, opt
   } else {
     for (const url in reports ?? {}) {
       const report = <EvaluationReport>reports[url];
-      await saveReport(url, report);
+      if (undefined !== saveName) {
+        await saveReport(saveName, report, true);
+      } else {
+        await saveReport(url, report);
+      }
     }
   }
 }
