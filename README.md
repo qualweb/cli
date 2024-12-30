@@ -1,3 +1,5 @@
+This repository has been archived. QualWeb is now being maintained in a monorepo at https://github.com/qualweb/qualweb
+
 # QualWeb CLI
 
 QualWeb command line interface. It allows you to perform accessibility evaluations from the terminal. It uses the [@qualweb/core](https://github.com/qualweb/core) that contains 3 evaluation modules:
