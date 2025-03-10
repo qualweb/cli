@@ -26,7 +26,7 @@ async function cli(): Promise<void> {
 
     await handleReporting(reports, options);
   } catch (err) {
-    if (err?.message === 'Invalid input method') {
+    if (err instanceof Error && err.message === 'Invalid input method') {
       printHelp();
     } else {
       console.error(err);
